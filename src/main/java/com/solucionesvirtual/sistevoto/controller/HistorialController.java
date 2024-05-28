@@ -22,14 +22,18 @@ public class HistorialController {
     private final RespuestaService respuestaService;
 
     @GetMapping("/historial")
-    public String mostrarListaPreguntas(Model model) {
+    public String mostrarListaPreguntas(Model model,@AuthenticationPrincipal UserDetails userDetails) {
+        String copropiedad = userDetails.getUsername();
+        model.addAttribute("user", copropiedad);
         List<Pregunta> preguntas = preguntaService.getPregunta();
         model.addAttribute("preguntas", preguntas);
         return "historial";
     }
 
     @GetMapping("/resultados/{id}")
-    public String mostrarResultados(@PathVariable("id") Integer id, Model model) {
+    public String mostrarResultados(@PathVariable("id") Integer id, Model model,@AuthenticationPrincipal UserDetails userDetails) {
+        String copropiedad = userDetails.getUsername();
+        model.addAttribute("user", copropiedad);
         Pregunta pregunta = preguntaService.getPreguntaPorId(id);
         LocalDateTime ahora = LocalDateTime.now();
         if (pregunta.getFechahora().isBefore(ahora)){
