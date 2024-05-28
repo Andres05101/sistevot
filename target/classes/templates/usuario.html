@@ -34,9 +34,7 @@
                             <section th:if="${!registro}" class="flex justify-center mt-4">
                                 <a th:href="@{/asistencia(copropiedad=${user})}" class="block px-4 py-5 bg-red-500 text-white rounded hover:bg-red-600">Toque para firmar asistencia</a>
                             </section>
-                            <section th:if="${asistenciaRegistrada}" class="text-center mt-4">
-                                <p class="text-green-500">Asistencia registrada</p>
-                            </section>
+
                         </section>
                         <section class="mt-8">
                             <section th:if="${noAsamblea}" class="text-center">
@@ -52,11 +50,15 @@
                                     </ul>
                                 </section> 
                                 <section  class="text-center" id="preguntasEnDesarrollo">
-                                    <!-- Aquí se insertará el HTML de la lista de preguntas -->
                                 </section>
                             </section>
                         </section>
                     </section>
+	                <section>
+		                <section th:each="documento : ${documentos}">
+			                <h2><a th:href="@{/download/{id}(id=${documento.documento})}" th:text="${documento.nombre}"></a></h2>
+		                </section>
+	                </section>
                 </section>            
             </section>
         </section>
