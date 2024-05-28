@@ -1,0 +1,12 @@
+sistevotodbname_high = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.us-ashburn-1.oraclecloud.com))(connect_data=(service_name=gc6e630e6cebd56_sistevotodbname_high.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+sistevotodbname_low = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.us-ashburn-1.oraclecloud.com))(connect_data=(service_name=gc6e630e6cebd56_sistevotodbname_low.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+sistevotodbname_medium = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.us-ashburn-1.oraclecloud.com))(connect_data=(service_name=gc6e630e6cebd56_sistevotodbname_medium.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+sistevotodbname_tp = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.us-ashburn-1.oraclecloud.com))(connect_data=(service_name=gc6e630e6cebd56_sistevotodbname_tp.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+sistevotodbname_tpurgent = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.us-ashburn-1.oraclecloud.com))(connect_data=(service_name=gc6e630e6cebd56_sistevotodbname_tpurgent.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+
+

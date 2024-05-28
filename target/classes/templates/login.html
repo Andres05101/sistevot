@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-cover bg-center" style="background-image: url('../static/resorces_index/conjunto.jpg');">
+<section class="container mx-auto flex flex-col items-center justify-center h-screen">
+    <section class="w-full md:w-1/2 lg:w-2/3 xl:w-1/2 bg-white bg-opacity-75 shadow-md rounded-lg overflow-hidden">
+        <section class="p-8">
+            <img class="mx-auto mb-8" src="../static/resorces_index/Logo_sitevoto.png" alt="Logo sistevoto" style="max-width: 200px;">
+            <div class="message" th:if="${param.error}">
+                <p class="text-red-500">Usuario o contraseña no validas </p>
+            </div>
+            <div class="message" th:if="${param.logout}">
+                Logout Successfuly
+            </div>
+            <form th:action="@{/login}" method="post" class="space-y-4">
+                <input  id="username" name="username" type="text" placeholder="Numero de Casa" class="w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:border-indigo-500">
+                <input  id="password" name="password" type="password" placeholder="Contraseña" class="w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:border-indigo-500">
+                <button type="submit" class="w-full px-4 py-3 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 transition duration-200">Iniciar sesión</button>
+            </form>
+        </section>
+    </section>
+</section>
+</body>
+
+

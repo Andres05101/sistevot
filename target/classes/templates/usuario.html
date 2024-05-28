@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sistema de Administración de Asambleas</title>
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+        <style>.content-section {min-height: 80vh;}</style>
+    </head>
+    <body class="bg-gray-100">
+        <section class="container mx-auto">
+            <header class="bg-white shadow-md">
+                <section class="container mx-auto flex justify-between items-center py-4 px-8">
+                    <img src="../static/resorces_index/Logo_sitevoto.png" alt="Logo de la empresa" class="h-10">
+                    <section>
+                        <span class="text-gray-600">Bienvenido, </span>
+                        <span class="font-bold" th:text="${user}"></span>
+                    </section>
+                </section>
+            </header>
+            <section class="flex mt-4">
+                <nav class="bg-gray-200 shadow-md p-4 w-1/5 max-h-screen overflow-y-auto flex flex-col">
+                    <section class="flex-grow mb-9">
+                        <a href="/historial" class="block mb-2 px-4 py-5 bg-blue-500 text-white rounded hover:bg-blue-600">Historial</a>
+                    </section>
+                    <section class="flex-shrink-0">
+                        <a href="/logout" class="block mt-auto px-4 py-5 bg-red-500 text-white rounded hover:bg-red-600">Cerrar sesión</a>
+                    </section>
+                </nav>
+                <section class="w-4/5 p-4 content-section max-h-screen overflow-y-auto">
+                    <section class="w-3/8 p-4">  
+                        <h1 class="text-3xl font-bold text-center">Sistema de Administracion de Asambleas</h1>
+                        <section class="mt-9">
+                            <section th:if="${!registro}" class="flex justify-center mt-4">
+                                <a th:href="@{/asistencia(copropiedad=${user})}" class="block px-4 py-5 bg-red-500 text-white rounded hover:bg-red-600">Toque para firmar asistencia</a>
+                            </section>
+                            <section th:if="${asistenciaRegistrada}" class="text-center mt-4">
+                                <p class="text-green-500">Asistencia registrada</p>
+                            </section>
+                        </section>
+                        <section class="mt-8">
+                            <section th:if="${noAsamblea}" class="text-center">
+                                <p class="text-red-500">No hay asamblea para hoy.</p>
+                            </section>
+                            <section th:if="${!noAsamblea}">
+                                <section th:if="${!#lists.isEmpty(temas)}" class="text-center border border-gray-300 rounded-lg">  
+                                    <ul> 
+                                        <a class="font-bold text-xl mb-4 flex justify-center">Temas De la Asamblea:</a>
+                                        <li th:each="tema : ${temas}" class="text-gray-800 mb-2">
+                                            <p th:text="${tema.texto_tema}" class="text-lg"></p>
+                                        </li>
+                                    </ul>
+                                </section> 
+                                <section  class="text-center" id="preguntasEnDesarrollo">
+                                    <!-- Aquí se insertará el HTML de la lista de preguntas -->
+                                </section>
+                            </section>
+                        </section>
+                    </section>
+                </section>            
+            </section>
+        </section>
+    </body>
+    <script src="../static/js/adminScript.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            setInterval(function() {
+                $.get("/preguntaEnDesarrollo", function(data) {
+                    $("#preguntasEnDesarrollo").html(data);
+                });
+            }, 3000);
+        });
+    </script>
+</html>
