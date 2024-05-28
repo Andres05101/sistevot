@@ -1,0 +1,6 @@
+<h2 class="text-center">Preguntas disponibles:</h2>
+<ul>
+	<li class="text-center" th:each="question : ${questions}">
+		<h2><a th:href="@{/pregunta/{id}(id=${question.pregunta})}" th:text="${question.enunciado}" class="inline-block w-1/6 px-9 py-3 bg-blue-500 text-white rounded hover:bg-black-600"></a></h2>
+	</li>
+</ul>

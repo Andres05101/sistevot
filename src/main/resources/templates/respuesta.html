@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sistema de Administración de Asambleas</title>
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+        <style>.content-section {min-height: 80vh;}</style>
+    </head>
+    <body class="bg-gray-100">
+        <section class="container mx-auto">
+            <header class="bg-white shadow-md">
+                <section class="container mx-auto flex justify-between items-center py-4 px-8">
+                    <img src="../static/resorces_index/Logo_sitevoto.png" alt="Logo de la empresa" class="h-10">
+                    <section>
+                        <span class="text-gray-600">Bienvenido, </span>
+                        <span class="font-bold" th:text="${user != null ? user.getCopropiedad() : 'Administrador'}"></span>
+                    </section>
+                </section>
+            </header>
+            <section class="flex mt-4">
+                <nav class="bg-gray-200 shadow-md p-4 w-1/5 max-h-screen overflow-y-auto flex flex-col">
+                    <section class="flex-grow mb-9">
+                        <a href="/usuario" class="block mb-2 px-4 py-5 bg-blue-500 text-white rounded hover:bg-blue-600">Volver</a>
+                    </section>
+                    <section class="flex-shrink-0">
+                        <a href="/logout" class="block mt-auto px-4 py-5 bg-red-500 text-white rounded hover:bg-red-600">Cerrar sesión</a>
+                    </section>
+                </nav>
+                <section class="w-3/4 p-4 content-section max-h-screen overflow-y-auto">
+                    <h2 class="text-2xl font-bold mb-4" th:text="${pregunta.enunciado}"></h2>
+                    <form th:action="@{/voto}" method="post" class="space-y-4">
+                        <input type="hidden" th:value="${pregunta.pregunta}" name="preguntaId"/>
+                        <div th:each="respuestas : ${respuestas}" class="flex items-center space-x-2">
+                            <input type="radio" th:value="${respuestas.idRespuesta}" name="respuetaId" th:id="${'respuesta' + respuestas.idRespuesta}" class="form-radio h-4 w-4 text-blue-600"/>
+                            <label th:for="${'respuesta' + respuestas.idRespuesta}" th:text="${respuestas.opcion}" class="text-lg text-gray-700"></label>
+                        </div>
+                        <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Votar</button>
+                    </form>
+                </section>
+            </section>
+        </section>
+    </body>
+</html>

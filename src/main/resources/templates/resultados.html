@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Administración de Asambleas</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>.content-section {min-height: 80vh;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100">
+<section class="container mx-auto">
+    <header class="bg-white shadow-md">
+        <section class="container mx-auto flex justify-between items-center py-4 px-8">
+            <img src="../static/resorces_index/Logo_sitevoto.png" alt="Logo de la empresa" class="h-10">
+            <section>
+                <span class="text-gray-600">Bienvenido, </span>
+                <span class="font-bold" th:text="${user != null ? user.getCopropiedad() : 'Administrador'}"></span>
+            </section>
+        </section>
+    </header>
+    <section class="flex mt-4">
+        <nav class="bg-gray-200 shadow-md p-4 w-1/5 max-h-screen overflow-y-auto flex flex-col">
+            <!--aca esto tiene que hacer un if, que devuelva para un lado u otro dependiendo si es admin o usuario, de momento esta como si fuera usuario-->
+            <section class="flex-grow mb-9">
+                <a th:if="${user == 'admin'}" href="/administrador" class="block mb-2 px-4 py-5 bg-blue-500 text-white rounded hover:bg-blue-600">Inicio</a>
+                <a th:if="${user != 'admin'}" href="/usuario" class="block mb-2 px-4 py-5 bg-blue-500 text-white rounded hover:bg-blue-600">Inicio</a>
+                <a href="/historial" class="block mb-2 px-4 py-5 bg-blue-500 text-white rounded hover:bg-blue-600">Volver</a>
+            </section>
+            <section class="flex-shrink-0">
+                <a href="/logout" class="block mt-auto px-4 py-5 bg-red-500 text-white rounded hover:bg-red-600">Cerrar sesión</a>
+            </section>
+        </nav>
+        <section class="w-4/5 p-4 content-section max-h-screen overflow-y-auto">
+            <section th:if="${tiempo}">
+                <h2 id="enunciado" th:text="${enunciado}" class="text-gray-100"></h2>
+                <section class="text-gray-100">
+                    <div id="datosVotos">
+                        <div th:each="voto : ${votos}">
+                            <p>Respuesta <span th:text="${voto.key}"></span>: <span th:text="${voto.value}"></span> votos</p>
+                        </div>
+                    </div>
+                </section>
+                <section class="flex justify-center max-h-screen">
+                    <div class="w-full max-w-md max-h-screen">
+                        <canvas id="miDiagramaDeTorta"></canvas>
+                    </div>
+                </section>
+            </section>
+            <section th:if="${!tiempo}">
+                <h2>El tiempo de votación no ha acabado</h2>
+            </section>
+        </section>
+    </section>
+</section>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Extraer datos de votos desde Thymeleaf
+        const datosVotos = [];
+        const datosVotosDiv = document.getElementById('datosVotos').children;
+        for (let i = 0; i < datosVotosDiv.length; i++) {
+            const respuesta = datosVotosDiv[i].querySelector('span:first-child').innerText;
+            const votos = parseInt(datosVotosDiv[i].querySelector('span:last-child').innerText);
+            datosVotos.push({ respuesta, votos });
+        }
+
+        // Extraer etiquetas y datos
+        const etiquetas = datosVotos.map(voto => voto.respuesta);
+        const datos = datosVotos.map(voto => voto.votos);
+
+        // Obtener el contexto del canvas
+        const canvas = document.getElementById('miDiagramaDeTorta');
+        const ctx = canvas.getContext('2d');
+
+        // Obtener el título del diagrama desde Thymeleaf
+        const tituloDiagrama = document.getElementById('enunciado').innerText;
+
+        // Crear el diagrama de torta
+        const miDiagramaDeTorta = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: etiquetas,
+                datasets: [{
+                    label: 'Votos',
+                    data: datos,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.5)',
+                        'rgba(54, 162, 235, 0.5)',
+                        'rgba(255, 206, 86, 0.5)',
+                        'rgba(75, 192, 192, 0.5)',
+                        'rgba(153, 102, 255, 0.5)',
+                        'rgba(255, 159, 64, 0.5)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: tituloDiagrama
+                    }
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>
